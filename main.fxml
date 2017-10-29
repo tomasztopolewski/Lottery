@@ -32,5 +32,6 @@
             <Font size="8.0" />
          </font>
       </Label>
+      <Button fx:id="buttonInfo" defaultButton="true" layoutX="421.0" layoutY="6.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="22.0" text="?" />
    </children>
 </AnchorPane>

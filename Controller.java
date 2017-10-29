@@ -19,7 +19,7 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable {
 
     public static final String title = "Losowanie numerka";
-    public static final String version = "1.05";
+    public static final String version = "1.10";
 
 
     @FXML // main.fxml
@@ -30,6 +30,9 @@ public class Controller implements Initializable {
 
     @FXML // main.fxml
     Label labelNumber;
+
+    @FXML // main.fxml
+    Button buttonInfo;
 
 
     // stage odpowiedzialny za widok config
@@ -82,6 +85,17 @@ public class Controller implements Initializable {
                 } else runMessageError("Wprowadzono zły przedział liczbowy. Zmień konfigurację.");
             }
         });
+
+        buttonInfo.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle(title + " - informacja");
+                alert.setHeaderText("Instrukcja obsługi");
+                alert.setContentText("Program losuje liczbę z wpisanego przez użytkownika zakresu. \nAby go wprowadzić musisz kliknąć przycisk \"Konfiguracja\" i następnie wypełnić pola. Po poprawnym wpisania program zapisze przedział. \nAby wylosować liczbę, i następne, musisz kliknąć przycisk \"Losowanie\". \nWylosowana liczba zawsze będzie różna od ostatniej wylosowanej.");
+                alert.showAndWait();
+            }
+        });
     }
 
 
@@ -105,21 +119,21 @@ public class Controller implements Initializable {
     // różne message
     public static void runMessageInfo(String text) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Lottery numerka");
+        alert.setTitle(title);
         alert.setHeaderText("");
         alert.setContentText(text);
         alert.showAndWait();
     }
     public static void runMessageWarn(String text) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Lottery numerka");
+        alert.setTitle(title);
         alert.setHeaderText("");
         alert.setContentText(text);
         alert.showAndWait();
     }
     public static void runMessageError(String text) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Lottery numerka");
+        alert.setTitle(title);
         alert.setHeaderText("");
         alert.setContentText(text);
         alert.showAndWait();
