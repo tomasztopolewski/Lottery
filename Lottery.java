@@ -70,16 +70,20 @@ public abstract class Lottery {
      *
      * Instrukacja sterująca dzieli program na trzy możliwe sytuacje:
      *      1) wylosowana liczba jest równa liczbie wylosowanej podczas ostatniego
-     *         losowanialub została wylosowana liczba z przedziału mniejszego od
+     *         losowania lub została wylosowana liczba z przedziału mniejszego od
      *         żądanego od użytkownika (dzieje się tak, gdy liczba początkowa jest
      *         różna od zera, a metoda obiektu 'Random.nextInt(int bound)' losuje
      *         doomyślenie liczby od 0
      *            W takim wypadku funkcja stouje rekurencje.
-     *      2) wylosowana liczba
+     *      2) wylosowana liczba nie jest równa ostatniej wylosowanej liczbie
+     *         i jednocześnie mieści się w przedziale
+     *      ...
      *
+     * Funkcja 'returnRandomNumber()' wersja 1.3
      *
      * @return randomly number
      */
+/* // Nie używana wersja funkcji.
     public static int returnRandomNumber() {
         int generatedNumber = generator.nextInt(endNumber + 1);
         //generatedNumber != numbersFromLottery.add(generatedNumber).get(numbersFromLottery.size())));
@@ -91,6 +95,47 @@ public abstract class Lottery {
         }
         return -1;
     }
+*/
+
+    /**
+     * Funkcja 'lotteryNumber()' wersja 2.0 - (poprzednio 'returnRandomNumber()')
+     * Przedmiot działania funkcji pozostaje niezmienny. Funkcja korzysta
+     * z metody 'java.util.Random.nextInt(int bound)'.
+     *
+     * Założenie poprawności wyniku funkcji:
+     *      funkcja 'lotteryNumber()' zwróci poprawną wartość wtedy i tylko
+     *      wtedy, gdy nieprzciążona metoda obiektu 'Lottery.checkRange()' zwróci
+     *      'true'. Oznacza to, że przedział z jakiego będzie losowana liczba jest
+     *      poprawnie zapisany.
+     *
+     * Instrukcja warunkowa dzieli funkcję na trzy możliwe uwarunkowania (sprawdzane
+     * po koleji, od punktu pierwszego do trzeciego, gdzie trzeci punkt zawiera
+     * poprawnie rozpatrzone uwarunkowania):
+     *      1) wylosowana liczba jest mniejsza od początku przedziału, jaki użytkownik
+     *         wprowadził: funkcja wywołuje rekurencyjne samą siebie.
+     *      2) liczba wylosowana będzie zawierała się w zdeklarowanym przedziale,
+     *         funkcja sprawdzi, czy wylosowana liczba jest równa ostatniej
+     *         wylosowanej liczbie: jeśli tak, funkcja wywołuje rekurencyjne
+     *         samą siebie, a jeśli nie to przechodzi do ostatniej części instrukcji.
+     *      3) ostatnia część instrukcji wykonuje się dla poprawnie wylosowanej liczby,
+     *         takiej, która należy do przedziału i jest różna od ostatniej
+     *         wylosowanej liczby. W takim przypadku: zapisuję wartość wygenerownej
+     *         liczby do zmiennej 'lastNumber' i zwraca wylosowaną liczbę.
+     *
+     * @return randomly number from user's range
+     */
+
+    public static int lotteryNumber() {
+        int generatedNumber = generator.nextInt(endNumber + 1);
+
+        if (!(generatedNumber >= Lottery.firstNumber)) return lotteryNumber();
+        else if (generatedNumber == Lottery.lastNumber) return lotteryNumber();
+        else {
+            lastNumber = generatedNumber;
+            return generatedNumber;
+        }
+    }
+
 
     public static boolean checkRange() {
         return firstNumber < endNumber && firstNumber >= 0 ? true : false;
@@ -99,3 +144,5 @@ public abstract class Lottery {
         return firstNumber < endNumber && firstNumber >= 0 ? true : false;
     }
 }
+
+// Tomasz Topolewski 2017

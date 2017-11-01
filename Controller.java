@@ -19,7 +19,7 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable {
 
     public static final String title = "Losowanie numerka";
-    public static final String version = "1.10";
+    public static final String version = "2.00";
 
 
     @FXML // main.fxml
@@ -80,8 +80,8 @@ public class Controller implements Initializable {
             // losuje liczbę z podanego zakresu
             public void handle(MouseEvent event) {
                 if (Lottery.checkRange()) {
-                    int generatedNumber = Lottery.returnRandomNumber();
-                    if (generatedNumber != -1) labelNumber.setText(new Integer(generatedNumber).toString());
+                    int generatedNumber = Lottery.lotteryNumber();
+                    labelNumber.setText(new Integer(generatedNumber).toString());
                 } else runMessageError("Wprowadzono zły przedział liczbowy. Zmień konfigurację.");
             }
         });
@@ -90,9 +90,13 @@ public class Controller implements Initializable {
             @Override
             public void handle(MouseEvent event) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle(title + " - informacja");
-                alert.setHeaderText("Instrukcja obsługi");
-                alert.setContentText("Program losuje liczbę z wpisanego przez użytkownika zakresu. \nAby go wprowadzić musisz kliknąć przycisk \"Konfiguracja\" i następnie wypełnić pola. Po poprawnym wpisania program zapisze przedział. \nAby wylosować liczbę, i następne, musisz kliknąć przycisk \"Losowanie\". \nWylosowana liczba zawsze będzie różna od ostatniej wylosowanej.");
+                alert.setTitle(title + " - informacja o programie");
+                alert.setHeaderText("");
+                alert.setContentText("Program losuje liczbę z wpisanego przez użytkownika zakresu. " +
+                        "\nAby wprowadzić przedział losowania musisz kliknąć przycisk \"Konfiguracja\" i następnie wypełnić pola. Po poprawnym wpisaniu przedziału, program zapisze go. " +
+                        "\nŻeby wylosować liczbę musisz kliknąć przycisk \"Losowanie\". Wylosowana liczba zawsze będzie różna od ostatniej wylosowanej." +
+                        "\n\nAutor: Tomasz Topolewski" +
+                        "\n" + Controller.title + " - wersja " + Controller.version + " (2017)");
                 alert.showAndWait();
             }
         });
@@ -139,3 +143,5 @@ public class Controller implements Initializable {
         alert.showAndWait();
     }
 }
+
+// Tomasz Topolewski 2017
